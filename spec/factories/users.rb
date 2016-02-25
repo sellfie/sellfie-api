@@ -1,8 +1,11 @@
 FactoryGirl.define do
   factory :user do
-    email "MyString"
-    encrypted_password "MyString"
-    confirmation_token "MyString"
-    confirmed_at "2016-02-23 14:25:51"
+    email 'me@maianhvu.com'
+    password 'secretpassword'
+    confirmed_at { 1.day.ago }
+
+    trait :unconfirmed do
+      confirmed_at nil
+    end
   end
 end
