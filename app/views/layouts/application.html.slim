@@ -1,0 +1,13 @@
+doctype html
+html
+  head
+    meta charset='utf-8'
+    title Sellfie
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+  body
+    p.notice= notice
+    p.alert= alert
+
+    = yield
+
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
