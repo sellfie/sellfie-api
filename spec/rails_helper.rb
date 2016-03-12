@@ -14,6 +14,7 @@ DatabaseCleaner.strategy = :truncation
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include JsonHelper
+  config.include AuthHelper
 
   config.use_transactional_fixtures = false
   config.infer_spec_type_from_file_location!

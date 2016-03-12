@@ -7,5 +7,11 @@ FactoryGirl.define do
     trait :unconfirmed do
       confirmed_at nil
     end
+
+    trait :vendor do
+      email 'vendor@example.com'
+      password 'tradesecret'
+      confirmed_at { 2.years.ago }
+    end
   end
 end
