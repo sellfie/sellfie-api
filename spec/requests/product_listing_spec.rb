@@ -4,8 +4,9 @@ RSpec.describe 'Product Listing', type: :request do
 
   let!(:user) { FactoryGirl.create(:user) }
 
-  let!(:vendor) { FactoryGirl.build_stubbed(:user, :vendor) }
-  let!(:products) { FactoryGirl.create_list(:product, 10, seller: vendor) }
+  let!(:vendor) { FactoryGirl.create(:user, :vendor) }
+  let!(:category) { FactoryGirl.create(:category) }
+  let!(:products) { FactoryGirl.create_list(:product, 10, seller: vendor, category: category) }
 
   context 'User who has not signed in' do
     scenario 'cannot get product listing' do
@@ -31,8 +32,12 @@ RSpec.describe 'Product Listing', type: :request do
       expect(response.content_type).to eq(Mime::JSON)
 
       # Get products body
-      body = json(response.body)
-      expect(body.size).to be(products.length)
+      body = json(response.body)[:products]
+      expect(body.size).to eq(products.length)
+
+      # Only have names, description, condition, price, shipping fee, stock, and category
+      first_item = body.first
+      expect(first_item.keys).to contain_exactly(:name, :description, :condition, :price, :shipping_fee, :stock, :category, :seller)
     end
   end
 

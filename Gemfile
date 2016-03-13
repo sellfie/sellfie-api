@@ -20,6 +20,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use Slim templates
 gem 'slim-rails'
+# Use jbuilder
+gem 'jbuilder'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
