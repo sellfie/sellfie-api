@@ -8,5 +8,5 @@ json.products @products do |product|
 
   json.stock product.stock
   json.category product.category.name
-  json.seller product.seller.username || product.seller.email
+  json.seller product.seller.email
 end
