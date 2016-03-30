@@ -32,4 +32,7 @@ class ProductsController < ApplicationController
   def product_create_params
     params.require(:product).permit(:name, :description, :condition, :price, :shipping_fee)
   end
+
+  def parse_product_create_images
+  end
 end
