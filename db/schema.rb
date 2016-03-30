@@ -11,26 +11,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160329091107) do
+ActiveRecord::Schema.define(version: 20160330045942) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
   end
 
   create_table "products", force: :cascade do |t|
-    t.string   "name",                     null: false
+    t.string   "name",                      null: false
     t.string   "description"
-    t.integer  "condition",    default: 1
+    t.integer  "condition"
     t.float    "price"
     t.float    "shipping_fee"
     t.integer  "stock"
     t.integer  "category_id"
-    t.integer  "seller_id",                null: false
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.integer  "seller_id",                 null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.text     "photo_paths",  default: [],              array: true
   end
 
-  add_index "products", ["category_id"], name: "index_products_on_category_id"
+  add_index "products", ["category_id"], name: "index_products_on_category_id", using: :btree
 
   create_table "purchases", force: :cascade do |t|
     t.integer  "product_id"
@@ -39,7 +43,7 @@ ActiveRecord::Schema.define(version: 20160329091107) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "purchases", ["product_id"], name: "index_purchases_on_product_id"
+  add_index "purchases", ["product_id"], name: "index_purchases_on_product_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",      null: false
@@ -65,9 +69,13 @@ ActiveRecord::Schema.define(version: 20160329091107) do
     t.string   "username"
   end
 
-  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
+  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
 
+  add_foreign_key "products", "categories"
+  add_foreign_key "products", "users", column: "seller_id"
+  add_foreign_key "purchases", "products"
+  add_foreign_key "purchases", "users", column: "buyer_id"
 end

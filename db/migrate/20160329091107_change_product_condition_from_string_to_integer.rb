@@ -1,5 +1,9 @@
 class ChangeProductConditionFromStringToInteger < ActiveRecord::Migration
   def change
-    change_column :products, :condition, :integer, :default => 1
+    connection.execute(
+    <<-SQL
+    ALTER TABLE products ALTER COLUMN condition TYPE integer USING (1)
+    SQL
+    )
   end
 end
