@@ -6,5 +6,9 @@ FactoryGirl.define do
     price 10.0
     shipping_fee 2.5
     association :seller, factory: [ :user, :vendor ]
+
+    trait :vendorless do
+      seller_id nil
+    end
   end
 end

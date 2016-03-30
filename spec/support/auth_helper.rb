@@ -10,18 +10,27 @@ module AuthHelper
     response.header
   end
 
-  def api_get(path, unfiltered_header)
-    get json_path(path), {}, filter_headers(unfiltered_header)
+  def api_get(url, unfiltered_header)
+    get json_url(url), filter_headers(unfiltered_header)
+    response.header
+  end
+
+  def api_post(url, parameters, unfiltered_header)
+    post json_url(url), parameters.to_json, filter_headers(unfiltered_header)
+    response.header
   end
 
   private
 
-  def json_path(path)
-    "#{path}.json"
+  def json_url(url)
+    "#{url}.json"
   end
 
   def filter_headers(header)
     header.select { |k, v| required_auth_headers.include? k }
+    header['Accept'] = Mime::JSON.to_s
+    header['Content-Type'] = Mime::JSON.to_s
+    header
   end
 
   def required_auth_headers

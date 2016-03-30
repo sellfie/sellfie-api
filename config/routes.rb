@@ -6,5 +6,5 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth'
 
   # ProductsController
-  resources :products, only: [ :index, :show ]
+  resources :products, only: [ :index, :create, :show ]
 end

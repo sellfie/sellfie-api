@@ -10,7 +10,7 @@ RSpec.describe 'Product Listing', type: :request do
 
   context 'User who has not signed in' do
     scenario 'cannot get product listing' do
-      get products_path
+      get products_url
 
       expect(response).to have_http_status(:unauthorized)
       expect(response.content_type).to eq(Mime::JSON)
@@ -26,7 +26,7 @@ RSpec.describe 'Product Listing', type: :request do
     let!(:sign_in_header) { sign_in_as(user) }
 
     scenario 'can get product listing' do
-      api_get products_path, sign_in_header
+      api_get products_url, sign_in_header
 
       expect(response).to have_http_status(:ok)
       expect(response.content_type).to eq(Mime::JSON)
