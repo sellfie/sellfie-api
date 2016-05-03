@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160330045942) do
+ActiveRecord::Schema.define(version: 20160330051856) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,18 +20,24 @@ ActiveRecord::Schema.define(version: 20160330045942) do
     t.string "name"
   end
 
+  create_table "product_photos", force: :cascade do |t|
+    t.string  "path",       default: "", null: false
+    t.integer "product_id"
+  end
+
+  add_index "product_photos", ["product_id"], name: "index_product_photos_on_product_id", using: :btree
+
   create_table "products", force: :cascade do |t|
-    t.string   "name",                      null: false
+    t.string   "name",         null: false
     t.string   "description"
     t.integer  "condition"
     t.float    "price"
     t.float    "shipping_fee"
     t.integer  "stock"
     t.integer  "category_id"
-    t.integer  "seller_id",                 null: false
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.text     "photo_paths",  default: [],              array: true
+    t.integer  "seller_id",    null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   add_index "products", ["category_id"], name: "index_products_on_category_id", using: :btree
@@ -74,6 +80,7 @@ ActiveRecord::Schema.define(version: 20160330045942) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
 
+  add_foreign_key "product_photos", "products"
   add_foreign_key "products", "categories"
   add_foreign_key "products", "users", column: "seller_id"
   add_foreign_key "purchases", "products"

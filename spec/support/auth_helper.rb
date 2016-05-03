@@ -16,7 +16,7 @@ module AuthHelper
   end
 
   def api_post(url, parameters, unfiltered_header)
-    post json_url(url), parameters.to_json, filter_headers(unfiltered_header)
+    post json_url(url), parameters, filter_headers(unfiltered_header)
     response.header
   end
 

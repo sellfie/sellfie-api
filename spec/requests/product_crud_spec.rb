@@ -14,7 +14,14 @@ RSpec.describe 'Product CRUD Operations', type: :request do
       # Create Base64 encoding of photo
       image_path = File.join(Rails.root, 'spec', 'resources', 'doge.jpeg')
       image_base64 = Base64.encode64(File.read(image_path))
-      photos = [image_base64, image_base64]
+      photos = []
+      for i in 0..1 do
+        photos << {
+          filename: "product#{i}.jpeg",
+          content: image_base64,
+          content_type: 'image/jpeg'
+        }
+      end
 
       product_params = {
         :product => FactoryGirl.attributes_for(:product, :vendorless)
