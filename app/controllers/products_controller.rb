@@ -11,11 +11,9 @@ class ProductsController < ApplicationController
 
   def create
     create_params = product_create_params
-    byebug
 
     # Create uploaded photos
     create_product_photos(create_params[:photos])
-    byebug
 
     product = Product.new(product_create_params)
     # Assign seller to current user
