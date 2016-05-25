@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :product do
-    sequence(:name) { |n| "Product ##{n}" }
+    sequence(:name) { |n| "Product Number #{n}" }
     description "An awesome product"
     condition 10
     price 10.0

@@ -13,7 +13,10 @@ class ProductsController < ApplicationController
     create_params = product_create_params
 
     # Create uploaded photos
-    create_product_photos(create_params[:photos])
+    if create_params.has_key? :photos
+      uploaded_file = create_product_photos(create_params[:photos])
+      create_params[:photos] = uploaded_file
+    end
 
     product = Product.new(product_create_params)
     # Assign seller to current user
@@ -38,7 +41,7 @@ class ProductsController < ApplicationController
   private
 
   def product_create_params
-    params.require(:product).permit(:name, :description, :condition, :price, :shipping_fee, :photos)
+    params.require(:product).permit(:name, :description, :condition, :price, :shipping_fee, { photos: []})
   end
 
   def create_product_photos(photos)
@@ -49,7 +52,8 @@ class ProductsController < ApplicationController
       file.write Base64.decode64(photo[:content])
       file.rewind
 
-      filename = current_user.id.to_s << Digest::MD5.hexdigest(photo[:filename]) << "_" << Digest::MD5.hexdigest(Time.now.to_s)
+      filename = current_user.id.to_s << Digest::MD5.hexdigest(photo[:filename])
+      filename << "_" << Digest::MD5.hexdigest(Time.now.to_s)
 
       uploaded_file = ActionDispatch::Http::UploadedFile.new(
         tempfile: file,

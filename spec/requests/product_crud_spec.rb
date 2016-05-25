@@ -11,24 +11,26 @@ RSpec.describe 'Product CRUD Operations', type: :request do
   context 'Creating' do
 
     scenario 'User create product with valid parameters' do
-      # Create Base64 encoding of photo
-      image_path = File.join(Rails.root, 'spec', 'resources', 'doge.jpeg')
-      image_base64 = Base64.encode64(File.read(image_path))
-      photos = []
-      for i in 0..1 do
-        photos << {
-          filename: "product#{i}.jpeg",
-          content: image_base64,
-          content_type: 'image/jpeg'
-        }
-      end
-
       product_params = {
         :product => FactoryGirl.attributes_for(:product, :vendorless)
           .reject { |k, v| [:seller_id].include? k }
       }
-      # Attach photo
-      product_params[:product][:photos] = photos
+
+      # Create Base64 encoding of photo
+      # image_path = File.join(Rails.root, 'spec', 'resources', 'doge.jpeg')
+      # image_base64 = Rack::Test::UploadedFile.new(image_path, 'image/jpeg')
+
+      # Attach photos
+      # photos = []
+      # for i in 0..1 do
+        # photos << {
+          # file_name: "photo#{i}.jpg",
+          # content: image_base64,
+          # content_type: 'image/jpeg'
+        # }
+      # end
+      # product_params[:product][:photos] = photos
+      # product_params[:format] = :json
 
       expect {
         api_post products_url, product_params, original_header

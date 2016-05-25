@@ -16,7 +16,7 @@ module AuthHelper
   end
 
   def api_post(url, parameters, unfiltered_header)
-    post json_url(url), parameters, filter_headers(unfiltered_header)
+    post json_url(url), parameters.to_json, filter_headers(unfiltered_header)
     response.header
   end
 
@@ -27,13 +27,13 @@ module AuthHelper
   end
 
   def filter_headers(header)
-    header.select { |k, v| required_auth_headers.include? k }
-    header['Accept'] = Mime::JSON.to_s
-    header['Content-Type'] = Mime::JSON.to_s
+    header.select { |k, v| AuthHelper.required_auth_headers.include? k }
+    header['ACCEPT'] = Mime::JSON.to_s
+    header['CONTENT_TYPE'] = Mime::JSON.to_s
     header
   end
 
-  def required_auth_headers
+  def self.required_auth_headers
     # filter out the headers that are required
     ['access-token', 'token-type', 'client', 'expiry', 'uid']
   end
