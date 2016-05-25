@@ -24,3 +24,5 @@
 
 .byebug_history
 
+# Ignore rbenv environment variables
+.rbenv-vars

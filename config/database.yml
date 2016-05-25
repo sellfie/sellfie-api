@@ -17,4 +17,8 @@ test:
 
 production:
   <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
+  host: localhost
+  username: <%= ENV['SELLFIE_API_DB_USERNAME'] %>
+  password: <%= ENV['SELLFIE_API_DB_PASSWORD'] %>
+  database: sellfie
+
