@@ -26,3 +26,6 @@
 
 # Ignore rbenv environment variables
 .rbenv-vars
+
+# Ignore puma files
+/shared/*
