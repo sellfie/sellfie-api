@@ -1,4 +1,4 @@
-if ENV['RAILS_ENV'].eql? 'production'
+if ENV['RAILS_ENV'].eql?('production') && ENV['SELLFIE_API_DIGITALOCEAN_OVERRIDE']
   # Change to match your CPU core count
   workers 2
 
