@@ -7,6 +7,8 @@ json.products @products do |product|
   json.shipping_fee product.shipping_fee
 
   json.stock product.stock
-  json.category product.category.name
+
+  json.category (product.category ? product.category.name : "Uncategorized")
+
   json.seller product.seller.email
 end

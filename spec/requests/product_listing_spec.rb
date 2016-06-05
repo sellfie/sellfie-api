@@ -39,6 +39,19 @@ RSpec.describe 'Product Listing', type: :request do
       first_item = body.first
       expect(first_item.keys).to contain_exactly(:name, :description, :condition, :price, :shipping_fee, :stock, :category, :seller)
     end
+
+    scenario 'can get products that are uncategorized' do
+      FactoryGirl.create_list(:product, 2, :uncategorized, seller: vendor)
+
+      api_get products_url, sign_in_header
+
+      expect(response).to have_http_status(:ok)
+      expect(response.content_type).to eq(Mime::JSON)
+
+      # Get products
+      body = json(response.body)[:products]
+      expect(body.select { |p| p[:category].eql?("Uncategorized") }.count).to be(2)
+    end
   end
 
 end

@@ -10,5 +10,9 @@ FactoryGirl.define do
     trait :vendorless do
       seller_id nil
     end
+
+    trait :uncategorized do
+      category nil
+    end
   end
 end
