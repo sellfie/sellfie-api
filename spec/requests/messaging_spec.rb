@@ -11,7 +11,7 @@ RSpec.describe 'Messaging', type: :request do
   context 'Sending messages' do
     scenario 'Sender sends message with valid params' do
       headers = sign_in_as sender
-      message_params = { content: "Hello World!" }
+      message_params = { message: { content: "Hello World!" } }
       expect {
         api_post send_message_to_user_url(user_id: receiver.id), message_params, headers
       }.to change { Message.count }.by(1)
@@ -35,7 +35,7 @@ RSpec.describe 'Messaging', type: :request do
 
     scenario 'Receiver checks message after sender sends one' do
       sender_headers = sign_in_as sender
-      message_params = { content: "Hello World!" }
+      message_params = { message: { content: "Hello World!" } }
       api_post send_message_to_user_url(user_id: receiver.id), message_params, sender_headers
 
 
@@ -48,6 +48,7 @@ RSpec.describe 'Messaging', type: :request do
       body = json(response.body)
       message = body[:messages].last
       expect(message[:content]).to eq("Hello World!")
+      expect(message[:from_id]).to eq(sender.id)
       expect(DateTime.parse(message[:created_at]).to_time).to be_within(1.minute).of(Time.now)
     end
   end

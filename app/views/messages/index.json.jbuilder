@@ -1,1 +1,1 @@
-json.messages @messages, :content, :created_at
+json.messages @messages, :from_id, :content, :created_at
