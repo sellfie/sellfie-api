@@ -11,13 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160330051856) do
+ActiveRecord::Schema.define(version: 20160612135645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.integer  "from_id"
+    t.integer  "to_id"
+    t.string   "content"
+    t.datetime "seen_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "product_photos", force: :cascade do |t|
@@ -80,6 +89,8 @@ ActiveRecord::Schema.define(version: 20160330051856) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
 
+  add_foreign_key "messages", "users", column: "from_id"
+  add_foreign_key "messages", "users", column: "to_id"
   add_foreign_key "product_photos", "products"
   add_foreign_key "products", "categories"
   add_foreign_key "products", "users", column: "seller_id"

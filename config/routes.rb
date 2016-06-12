@@ -7,4 +7,9 @@ Rails.application.routes.draw do
 
   # ProductsController
   resources :products, only: [ :index, :create, :show ]
+
+  # MessagesController
+  get 'messages/check/:since', to: 'messages#check', as: 'check_messages'
+  post 'messages/send_to/:user_id', to: 'messages#send_to', as: 'send_message_to_user'
+
 end

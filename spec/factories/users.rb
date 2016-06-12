@@ -14,5 +14,9 @@ FactoryGirl.define do
       password 'tradesecret'
       confirmed_at { 2.years.ago }
     end
+
+    trait :generic do
+      sequence(:email) { |n| "person#{n}@example.com" }
+    end
   end
 end
