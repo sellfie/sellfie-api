@@ -17,6 +17,7 @@ FactoryGirl.define do
 
     trait :generic do
       sequence(:email) { |n| "person#{n}@example.com" }
+      sequence(:username) { |n| "user#{n}" }
     end
   end
 end

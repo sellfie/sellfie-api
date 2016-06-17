@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'search/search'
+
   # Root path
   root to: 'pages#index'
 
@@ -11,5 +13,8 @@ Rails.application.routes.draw do
   # MessagesController
   get 'messages/check/:since', to: 'messages#check', as: 'check_messages'
   post 'messages/send_to/:user_id', to: 'messages#send_to', as: 'send_message_to_user'
+
+  # SearchController
+  get 'search/:scope/:query', to: 'search#search', as: 'search'
 
 end
