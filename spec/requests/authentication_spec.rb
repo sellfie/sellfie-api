@@ -19,7 +19,6 @@ RSpec.describe 'Authentication API', type: :request do
       }.to change { User.count }.by(1)
         .and change { ActionMailer::Base.deliveries.count }.by(1)
 
-
       expect(response).to have_http_status(:ok)
       expect(response.content_type).to eq(Mime::JSON)
 
@@ -58,7 +57,7 @@ RSpec.describe 'Authentication API', type: :request do
 
       # Response header must have 'access-token' and 'client'
       header = response.header
-      ['access-token', 'client'].each do |key|
+      ['access-token', 'client', 'token-type', 'client', 'expiry', 'uid'].each do |key|
         expect(header).to have_key(key)
         expect(header[key]).to_not be_nil
         expect(header[key]).to_not be_empty
