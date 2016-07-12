@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Authentication API', type: :request do
 
   context 'User has not signed in and' do
-    scenario 'tries to sign in using valid credentials' do
+    scenario 'tries to register using valid credentials' do
       user = FactoryGirl.build(:user, :unconfirmed)
       parameters = user.attributes.symbolize_keys.select do |k, v|
         [ :email, :username, :name, :gender, :nationality ].include? k
