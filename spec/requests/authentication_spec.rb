@@ -5,16 +5,20 @@ RSpec.describe 'Authentication API', type: :request do
   context 'User has not signed in and' do
     scenario 'tries to sign in using valid credentials' do
       user = FactoryGirl.build(:user, :unconfirmed)
+      parameters = user.attributes.symbolize_keys.select do |k, v|
+        [ :email, :username, :name, :gender, :nationality ].include? k
+      end
+      parameters.merge!({
+        password: user.password,
+        password_confirmation: user.password,
+        confirm_success_url: ''
+      })
 
       expect {
-        post user_registration_path, {
-          email: user.email,
-          password: user.password,
-          password_confirmation: user.password,
-          confirm_success_url: ''
-        }
+        post user_registration_path, parameters
       }.to change { User.count }.by(1)
         .and change { ActionMailer::Base.deliveries.count }.by(1)
+
 
       expect(response).to have_http_status(:ok)
       expect(response.content_type).to eq(Mime::JSON)
