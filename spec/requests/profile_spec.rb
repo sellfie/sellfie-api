@@ -12,7 +12,9 @@ RSpec.describe "Profile", type: :request do
       expect(response).to have_http_status(:ok)
       body = json(response.body)
       expect(body.keys).to contain_exactly(
-        :id, :username, :name
+        :id, :email, :username,
+        :name, :gender, :nationality,
+        :age, :address, :phone
       )
       body.keys.each do |attr|
         expect(body[attr]).to eq(user2.send(attr))
@@ -29,6 +31,22 @@ RSpec.describe "Profile", type: :request do
       body = json(response.body)
       expect(body.keys).to contain_exactly(:errors)
       expect(body[:errors]).to_not be_empty
+    end
+
+    scenario 'of a user with minimal attributes' do
+      user2 = FactoryGirl.create(:user, :generic, :minimal)
+      headers = sign_in_as user
+      api_get user_url(user2.id), headers
+
+      expect(response).to have_http_status(:ok)
+      body = json(response.body)
+      expect(body.keys).to contain_exactly(
+        :id, :email, :username,
+        :name, :gender, :nationality
+      )
+      body.keys.each do |attr|
+        expect(body[attr]).to eq(user2.send(attr))
+      end
     end
   end
 end

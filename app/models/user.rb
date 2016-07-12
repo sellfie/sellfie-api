@@ -15,4 +15,7 @@ class User < ActiveRecord::Base
     :foreign_key => 'seller_id'
   has_many :purchases, :class_name => 'Purchase', :primary_key => 'id',
     :foreign_key => 'buyer_id'
+
+  # Validations
+  validates_presence_of :username, :name, :gender, :nationality
 end
