@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Profile", type: :request do
+RSpec.describe "Profile CRUD", type: :request do
   let!(:user) { FactoryGirl.create(:user, :generic) }
 
   context 'Viewing a profile' do
