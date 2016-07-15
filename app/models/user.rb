@@ -18,4 +18,5 @@ class User < ActiveRecord::Base
 
   # Validations
   validates_presence_of :username, :name, :gender, :nationality
+  validates_uniqueness_of :username
 end

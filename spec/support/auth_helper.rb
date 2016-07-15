@@ -15,9 +15,11 @@ module AuthHelper
     response.header
   end
 
-  def api_post(url, parameters, unfiltered_header)
-    post json_url(url), parameters.to_json, filter_headers(unfiltered_header)
-    response.header
+  [ :post, :patch ].each do |method|
+    define_method("api_#{method}") do |url, parameters, unfiltered_header|
+      send(method, json_url(url), parameters.to_json, filter_headers(unfiltered_header))
+      response.header
+    end
   end
 
   private

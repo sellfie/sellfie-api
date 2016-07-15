@@ -49,4 +49,68 @@ RSpec.describe "Profile CRUD", type: :request do
       end
     end
   end
+
+  context 'Editing a profile' do
+    let!(:new_attributes) {{
+      name: 'Donald Trump',
+      email: 'donald@trump.com',
+      username: 'donaldjtrump',
+      gender: 'female',
+      nationality: 'Murican',
+      age: 5,
+      phone: '(+1) 334 1337',
+      address: '1 Trump Tower'
+    }}
+
+    scenario "using one's own ID and valid parameters" do
+      headers = sign_in_as user
+      api_patch user_url(user.id), { user: new_attributes }, headers
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to_not be_empty
+      body = json(response.body)
+      expect(body.to_a).to include(*new_attributes.to_a)
+
+      user.reload
+      expect(user).to have_attributes(new_attributes)
+    end
+
+    scenario "using another person's ID and valid parameters" do
+      user2 = FactoryGirl.create(:user, :generic)
+      headers = sign_in_as user
+      api_patch user_url(user2.id), { user: new_attributes }, headers
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(response.body).to_not be_empty
+      body = json(response.body)
+      expect(body[:errors]).to_not be_empty
+      expect(body.keys).to_not include(*user2.attributes.keys)
+    end
+
+    scenario "using one's own ID and existing username" do
+      user2 = FactoryGirl.create(:user, :generic)
+      new_attributes[:username] = user2.username
+      headers = sign_in_as user
+      api_patch user_url(user.id), { user: new_attributes }, headers
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.body).to_not be_empty
+      body = json(response.body)
+      expect(body[:errors]).to_not be_empty
+    end
+
+    [ :username, :email, :name, :gender, :nationality].each do |required_attr|
+      scenario "using one's own ID and nil #{required_attr}" do
+        new_attributes[required_attr] = nil
+        headers = sign_in_as user
+        api_patch user_url(user.id), { user: new_attributes }, headers
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to_not be_empty
+        body = json(response.body)
+        expect(body[:errors]).to_not be_empty
+      end
+    end
+  end
+
 end

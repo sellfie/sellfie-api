@@ -17,6 +17,6 @@ Rails.application.routes.draw do
   get 'search/:scope/:query', to: 'search#search', as: 'search'
 
   # UsersController
-  resources :users, only: [ :show ]
+  resources :users, only: [ :show, :update ]
 
 end
