@@ -27,8 +27,9 @@ gem 'jbuilder'
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use Devise token authentication
-gem 'devise_token_auth'
 gem 'active_model_serializers', '0.10.0.rc4'
+gem 'devise_token_auth'
+gem 'devise', '~> 4.2.0'
 
 # Use Puma as the app server
 gem 'puma'
