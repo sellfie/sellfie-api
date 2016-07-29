@@ -28,6 +28,7 @@ gem 'jbuilder'
 
 # Use Devise token authentication
 gem 'devise_token_auth'
+gem 'active_model_serializers', '0.10.0.rc4'
 
 # Use Puma as the app server
 gem 'puma'
