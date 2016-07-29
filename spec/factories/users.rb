@@ -17,6 +17,7 @@ FactoryGirl.define do
 
     trait :vendor do
       email 'vendor@example.com'
+      username 'vendor'
       password 'tradesecret'
       confirmed_at { 2.years.ago }
     end
